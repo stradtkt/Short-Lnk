@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
+import { Accounts } from 'meteor/accounts-base';
 
 class Signup extends Component {
     constructor(props) {
@@ -10,9 +11,14 @@ class Signup extends Component {
     }
     onSubmit(e) {
         e.preventDefault();
-        this.setState({
-            error: 'Something went wrong'
+        let email = this.refs.email.value.trim();
+        let password = this.refs.password.value.trim();
+        Accounts.createUser({email, password}, (err) => {
+            console.log('Signup callback ', err);
         });
+        // this.setState({
+        //     error: 'Something went wrong'
+        // });
     }
     render() {
         return (
@@ -20,8 +26,8 @@ class Signup extends Component {
                 <h1>Join Short Lnk</h1>
                 {this.state.error ? <p>{this.state.error}</p> : undefined}
                 <form onSubmit={this.onSubmit.bind(this)}>
-                    <input type="email" name="email" placeholder="Email"/>
-                    <input type="password" name="password" placeholder="Password"/>
+                    <input type="email" ref="email" name="email" placeholder="Email"/>
+                    <input type="password" ref="password" name="password" placeholder="Password"/>
                     <button>Submit</button>
                 </form>
                 <br/>
