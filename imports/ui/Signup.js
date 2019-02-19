@@ -1,9 +1,15 @@
 import React, { Component } from 'react';
-
+import { Link } from 'react-router';
 
 class Signup extends Component {
     render() {
-        return <p>Signup Component Here</p>;    
+        return (
+            <div>
+                <h1>Join Short Lnk</h1>
+
+                <Link to="/">Already have an account?</Link>
+            </div>
+        );       
     }
 }
 
