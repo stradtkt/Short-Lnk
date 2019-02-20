@@ -10,11 +10,21 @@ import NotFound from './../imports/ui/NotFound';
 
 const unauthenticatedPages = ['/', '/signup'];
 const authenticatedPages = ['/links'];
+const onEnterPublicPage = () => {
+    if(Meteor.userId()) {
+        browserHistory.push('/links');
+    }
+};
+const onEnterPrivatePage = () => {
+    if(!Meteor.userId()) {
+        browserHistory.push('/');
+    }
+};
 const routes = (
     <Router history={browserHistory}>
-        <Route path="/" component={Login}/>
-        <Route path="/signup" component={Signup}/>
-        <Route path="/link" component={Link}/>
+        <Route path="/" component={Login} onEnter={onEnterPublicPage}/>
+        <Route path="/signup" component={Signup} onEnter={onEnterPublicPage}/>
+        <Route path="/link" component={Link} onEnter={onEnterPrivatePage}/>
         <Router path="*" component={NotFound}/>
     </Router>
 );
