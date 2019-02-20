@@ -13,19 +13,23 @@ class Signup extends Component {
         e.preventDefault();
         let email = this.refs.email.value.trim();
         let password = this.refs.password.value.trim();
+        if(password.length < 9) {
+            return this.setState({error: 'Password must be more than 8 characters long.  Please try again...'});
+        }
         Accounts.createUser({email, password}, (err) => {
-            console.log('Signup callback ', err);
+            if(err) {
+                this.setState({error: err.reason});
+            } else {
+                this.setState({error: ''});
+            }
         });
-        // this.setState({
-        //     error: 'Something went wrong'
-        // });
     }
     render() {
         return (
             <div>
                 <h1>Join Short Lnk</h1>
                 {this.state.error ? <p>{this.state.error}</p> : undefined}
-                <form onSubmit={this.onSubmit.bind(this)}>
+                <form onSubmit={this.onSubmit.bind(this)} noValidate>
                     <input type="email" ref="email" name="email" placeholder="Email"/>
                     <input type="password" ref="password" name="password" placeholder="Password"/>
                     <button>Submit</button>
