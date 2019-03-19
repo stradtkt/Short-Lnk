@@ -1,9 +1,13 @@
 import { Meteor } from 'meteor/meteor';
+import { WebApp } from 'meteor/webapp';
 import '../imports/api/users';
 import '../imports/api/links';
+import '../imports/startup/simple-schema-configuration';
 
 Meteor.startup(() => {
-    Meteor.call('greetUser', (err, res) => {
-        console.log('greetUser arguments', err, res);
+    WebApp.connectHandlers.use((req, res, next) => {
+        console.log('This is from my custom middleware!');
+        res.statusCode = 404;
+        next();
     });
 });
